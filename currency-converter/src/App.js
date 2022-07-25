@@ -1,5 +1,3 @@
-
-import CurrencyInput from "./components/CurrencyInput";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
@@ -9,12 +7,14 @@ import Typography from '@mui/material/Typography';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import CircularProgress from '@mui/material/CircularProgress';
 
+import CurrencyInput from "./components/CurrencyInput";
+
 
 function App() {
-  const [amountFirst, setAmountFirst] = useState(1)
-  const [amountSecond, setAmountSecond] = useState(1)
-  const [currencyFirst, setCurrencyFirst] = useState('USD')
-  const [currencySecond, setCurrencySecond] = useState('UAH')
+  const [amountFrom, setAmountFrom] = useState(1)
+  const [amountTo, setAmountTo] = useState(1)
+  const [currencyFrom, setCurrencyFrom] = useState('USD')
+  const [currencyTo, setCurrencyTo] = useState('UAH')
   const [results, setResults] = useState([])
   const [isLoading, setLoading] = useState(true)
 
@@ -29,7 +29,7 @@ function App() {
 
   useEffect(() => {
     if (!!results) {
-      handleAmountFirstChange(1)
+      handleAmountFromChange(1)
     }
   }, [results])
 
@@ -37,24 +37,24 @@ function App() {
     return number.toFixed(2)
   }
 
-  const handleAmountFirstChange = (amountFirst) => {
-    setAmountSecond(format(amountFirst * results[currencySecond] / results[currencyFirst]))
-    setAmountFirst(amountFirst)
+  const handleAmountFromChange = (amountFrom) => {
+    setAmountTo(format(amountFrom * results[currencyTo] / results[currencyFrom]))
+    setAmountFrom(amountFrom)
   }
 
-  const handleCurrencyFirstChange = (currencyFirst) => {
-    setAmountSecond(format(amountFirst * results[currencySecond] / results[currencyFirst]))
-    setCurrencyFirst(currencyFirst)
+  const handleCurrencyFromChange = (currencyFrom) => {
+    setAmountTo(format(amountFrom * results[currencyTo] / results[currencyFrom]))
+    setCurrencyFrom(currencyFrom)
   }
 
-  const handleAmountSecondChange = (amountSecond) => {
-    setAmountFirst(format(amountSecond * results[currencyFirst] / results[currencySecond]))
-    setAmountSecond(amountSecond)
+  const handleAmountToChange = (amountTo) => {
+    setAmountFrom(format(amountTo * results[currencyFrom] / results[currencyTo]))
+    setAmountTo(amountTo)
   }
 
-  const handleCurrencySecondChange = (currencySecond) => {
-    setAmountFirst(format(amountSecond * results[currencyFirst] / results[currencySecond]))
-    setCurrencySecond(currencySecond)
+  const handleCurrencyToChange = (currencyTo) => {
+    setAmountFrom(format(amountTo * results[currencyFrom] / results[currencyTo]))
+    setCurrencyTo(currencyTo)
   }
 
   if (isLoading) {
@@ -84,17 +84,17 @@ function App() {
           Currency convertor</Typography>
         <Box sx={{ display: 'flex', mr: 40 }}>
           <CurrencyInput
-            onAmountChange={handleAmountFirstChange}
-            onCurrencyChange={handleCurrencyFirstChange}
+            onAmountChange={handleAmountFromChange}
+            onCurrencyChange={handleCurrencyFromChange}
             currencies={Object.keys(results)}
-            amount={amountFirst}
-            currency={currencyFirst} />
+            amount={amountFrom}
+            currency={currencyFrom} />
           <CurrencyInput
-            onAmountChange={handleAmountSecondChange}
-            onCurrencyChange={handleCurrencySecondChange}
+            onAmountChange={handleAmountToChange}
+            onCurrencyChange={handleCurrencyToChange}
             currencies={Object.keys(results)}
-            amount={amountSecond}
-            currency={currencySecond} />
+            amount={amountTo}
+            currency={currencyTo} />
         </Box>
       </Box>
 
